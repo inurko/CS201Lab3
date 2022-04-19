@@ -7,17 +7,6 @@
  */
 public interface HashTable<T extends Comparable<T>, K> {
 
-   
-
-
-
-
-
-
-
-
-
-
 
 
 }

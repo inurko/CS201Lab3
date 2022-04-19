@@ -1,5 +1,7 @@
+import java.util.Hashtable;
+import java.util.ArrayList;
+
 public class HashFunction implements HashTable<String, HashObject> {
-    
 
 
     /**
@@ -10,6 +12,21 @@ public class HashFunction implements HashTable<String, HashObject> {
      *            hash table size
      * @return the hash value
      */
+
+    //private ArrayList<HashObject<MemoryHandleHolder, MemoryHandleHolder>>{
+
+   // }
+
+    public HashFunction(){
+
+    }
+    public HashFunction(String s, int m) {
+
+    }
+
+    public HashFunction(int m) {
+
+    }
     private long sfold(String s, int m) {
         int intLength = s.length() / 4;
         long sum = 0;

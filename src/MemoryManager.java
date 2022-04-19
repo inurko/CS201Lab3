@@ -31,7 +31,7 @@ public class MemoryManager {
         hashTable = new HashFunction(hashSize);
     }
 
-
+/*
     /**
      * 
      * @param id is the id
@@ -40,6 +40,7 @@ public class MemoryManager {
      * @return  the hash object
      * @throws IOException
      */
+    /*
     public HashObject insert(String id, String sequence, int length)
         throws IOException {
         HashObject hashObject = searchHash(id);
@@ -75,7 +76,7 @@ public class MemoryManager {
             byte[] byt = getBinary(id, id.length());
             memoryFile.seek(freeID.getOffset());
             memoryFile.write(byt);
-            if (freeID.getLength() != idLength) {
+            if (freeID.getLength() != idLength) { //??? why wouldnt hte length be the same for the same record objext
                 freeID.setOffset(freeID.getOffset() + idLength);
                 freeID.setLength(freeID.getLength() - idLength);
             }
@@ -139,7 +140,7 @@ public class MemoryManager {
             }
         }
         HashObject hashObjectNew = new HashObject(memID, memFull);
-        hashTable.insert(id, hashObjectNew); // insert to the hash table
+       // hashTable.insert(id, hashObjectNew); // insert to the hash table
         return hashObjectNew;
     }
 
@@ -149,6 +150,8 @@ public class MemoryManager {
      * @param node is the node
      * @return the prev node
      */
+
+    /*
     private Node findPrev(Node node) {
         
         Node temp = head;
@@ -167,6 +170,8 @@ public class MemoryManager {
      * 
      * @return the last node
      */
+
+    /*
     private Node getLast() {
         if (head == null) {
             return null;
@@ -182,6 +187,7 @@ public class MemoryManager {
     /**
      * 
      */
+    /*
     private void setLast() {
         if (head.getNext() == null) {
             head = null;
@@ -201,6 +207,8 @@ public class MemoryManager {
      * @param length is the length of free block
      * @return the node
      */
+
+    /*
     private Node findFree(int length) {
         Node temp = head;
         int byteLength = length / 4;
@@ -222,6 +230,7 @@ public class MemoryManager {
      * @return the string removed
      * @throws IOException can throw
      */
+    /*
     public String remove(String id) throws IOException {
         HashObject hash = searchHash(id);
         if (hash == null || hash.getSkip() == 32) {
@@ -247,7 +256,7 @@ public class MemoryManager {
             memoryFile.setLength(memoryFile.length() - getLast().getLength());
             setLast();
         }
-        hashTable.remove(id, hash.getSkip()); // check
+       // hashTable.remove(id, hash.getSkip()); // check
         return removed;
     }
 
@@ -258,6 +267,8 @@ public class MemoryManager {
      * @return the obj
      * @throws IOException can throw
      */
+
+    /*
     public HashObject searchHash(String str) throws IOException {
         int counter = 0;
         boolean isSequenceFound = false;
@@ -291,6 +302,7 @@ public class MemoryManager {
      * @return the string
      * @throws IOException
      */
+    /*
     private String getString(MemoryHandleHolder mem) throws IOException {
         memoryFile.seek(mem.getPosition());
         int numberOfBytesRead = mem.getLength() / 4;
@@ -322,6 +334,7 @@ public class MemoryManager {
      * @param length is the length of the string
      * @return the binary representation of it.
      */
+    /*
     public byte[] getBinary(String str, int length) {
         int numOfBytes = length / 4;
         if (length % 4 != 0) {
@@ -357,6 +370,7 @@ public class MemoryManager {
      * @param letter is the letter to convert
      * @return the int value
      */
+    /*
     public int convertCharToBit(char letter) {
         if (letter == 'A') {
             return 0;
@@ -378,6 +392,7 @@ public class MemoryManager {
      * @param single is the byte to convert
      * @return the int value
      */
+    /*
     public String byteToLetters(byte single) {
         int firstChar = single >> 6 & 3;
         int secondChar = single >> 4 & 3;
@@ -398,6 +413,7 @@ public class MemoryManager {
      * @param bit is the bit to convert
      * @return the string
      */
+    /*
     public String convertBitToChar(int bit) {
         if (bit == 0) {
             return "A";
@@ -420,6 +436,8 @@ public class MemoryManager {
      * @return the string
      * @throws IOException
      */
+
+    /*
     public String search(String id) throws IOException {
         int counter = 0;
         boolean isSequenceFound = false;
@@ -446,15 +464,16 @@ public class MemoryManager {
      * 
      * @param node to add to free block list
      */
+
     private void addToFree(Node node) {
         if (head == null) {
             head = node;
             return;
         }
-        if (head.getOffset() > node.getOffset()) {
-            if (node.getLength() + node.getOffset() == head.getOffset()) {
-                head.setOffset(node.getOffset());
-                head.setLength(head.getLength() + node.getLength());
+        if (head.getOffset() > node.getOffset()) { //checks if the new node can fit in the offset space of the head
+            if (node.getLength() + node.getOffset() == head.getOffset()) { //if the node + its extra space is the heads extra space
+                head.setOffset(node.getOffset());                           //then it makes the heads etxra space the nodes'
+                head.setLength(head.getLength() + node.getLength());        //and it makes the length of the node into the length of both
                 return;
             }
             Node temp = head;
@@ -519,6 +538,7 @@ public class MemoryManager {
      * 
      * @throws IOException
      */
+    /*
     public void print() throws IOException {
         HashObject[] table = hashTable.print();
         System.out.println("Sequence IDs:");
@@ -557,3 +577,5 @@ public class MemoryManager {
     }
 
 }
+
+
