@@ -53,31 +53,31 @@ public class DNAparser {
         String input;
         ArrayList<String> args = new ArrayList<>();
         Queue<String> argQ = new LinkedList<>();
-
+        String methodCall = "";
         // goes through file while there is another line
         while (scnr.hasNext()) {
-            String methodCall = "";
-            String argLine = scnr.nextLine(); //takes in first line from arg file
-            argParser = new Scanner(argLine); //will parse through the line to get arguments
-
             // gets the instruction and stores it in methodCall
-            while (argParser.hasNext()) {
-                input = argParser.next();
-                if (!input.equals(" ")) {
-                    if (args.isEmpty()) {
-                        methodCall = input;
-                    }
-                    args.add(input);
-                    argQ.add(input);
-                }
-            }
 
+            input = scnr.next();
+            if (!input.equals(" ")) {
+                if (args.isEmpty()) {
+                    System.out.println("input = " + input);
+                    methodCall = input;
+                }
+              //  args.add(input);
+                argQ.add(input);
+            }
+        }
             // depending on the instruction; do something
+        while (!argQ.isEmpty()){
             switch (methodCall) {
                 case "insert" :
-                    System.out.println("insert");
-                    argQ.remove();
-                    //call insert       .insert(argQ.remove);
+                    System.out.println("insert"); //public void insert (String sequenceID, int length, String sequence){
+                    String sequence = argQ.remove();
+                    String sequenceID = argQ.remove();
+                    int length = Integer.parseInt(argQ.remove());
+                    //insert (String sequenceID, int length, String sequence)
+                    memory.insert(sequenceID,sequence,length);
                     break;
 
                 case "remove" :
@@ -94,7 +94,7 @@ public class DNAparser {
                     break;
 
             }
-            System.out.println("SIZE : " + args.size());
+        //    System.out.println("SIZE : " + args.size());
         }
     return done;
 
