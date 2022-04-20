@@ -54,6 +54,8 @@ public class DNAparser {
         ArrayList<String> args = new ArrayList<>();
         Queue<String> argQ = new LinkedList<>();
         String methodCall = "";
+
+
         // goes through file while there is another line
         while (scnr.hasNext()) {
             // gets the instruction and stores it in methodCall
@@ -62,39 +64,39 @@ public class DNAparser {
             if (!input.equals(" ")) {
                 if (args.isEmpty()) {
                     System.out.println("input = " + input);
-                    methodCall = input;
+
                 }
               //  args.add(input);
                 argQ.add(input);
             }
         }
             // depending on the instruction; do something
-        while (!argQ.isEmpty()){
+        int i = 0;
+       // while (!argQ.isEmpty()){
+        while (i <20){
+            methodCall = argQ.remove();
+            System.out.println("methodCall" + methodCall);
             switch (methodCall) {
-                case "insert" :
+
+                case "insert" -> {
                     System.out.println("insert"); //public void insert (String sequenceID, int length, String sequence){
-                    String sequence = argQ.remove();
+
                     String sequenceID = argQ.remove();
                     int length = Integer.parseInt(argQ.remove());
-                    //insert (String sequenceID, int length, String sequence)
-                    memory.insert(sequenceID,sequence,length);
-                    break;
+                    String sequence = argQ.remove();
 
-                case "remove" :
-                    System.out.println("Remove");
-                    //call remove       .remove(argQ.remove);
-                    break;
+                    HashFunction hash = new HashFunction(length);
+                    hash.insert(sequenceID, length, sequence);
+                    memory.insert(sequenceID, sequence, length);
+                }
+                case "remove" -> System.out.println("Remove");
 
-                case "search" :
-                    System.out.println("Search");
-                    break;
-
-                case "print" :
-                    System.out.println("Print");
-                    break;
-
+                //call remove       .remove(argQ.remove);
+                case "search" -> System.out.println("Search");
+                case "print" -> System.out.println("Print");
             }
         //    System.out.println("SIZE : " + args.size());
+                i++;
         }
     return done;
 

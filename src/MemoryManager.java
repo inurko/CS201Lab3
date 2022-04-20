@@ -60,8 +60,10 @@ public class MemoryManager {
         if (freeID == null) {
             // get raf file pointer with getFilePointer()
             // remember to set raf pointer!!
-            // memID = new MemoryHandleHolder
+            /** figure this out **/
+            // memID = new MemoryHandleHolder();
             // Add to file RAF.setlength(length + newLength)
+
             memoryFile.seek(memoryFile.length()); // This sets the file pointer
                                                   // to the end.
             int offset = (int)memoryFile.getFilePointer(); // Will this always
