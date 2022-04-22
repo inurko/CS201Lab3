@@ -28,7 +28,13 @@ public class HashObject {
         sequence = seq;
         skip = counter;
     }
-    
+
+    public HashObject(HashObject insert) {
+        sequenceID = insert.sequence;
+        sequence = insert.sequence;
+        skip = insert.getSkip();
+    }
+
     /**
      * 
      * @return amount to skip in the hash table

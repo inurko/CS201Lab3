@@ -86,8 +86,7 @@ public class DNAparser {
                     String sequence = argQ.remove();
 
                     HashFunction hash = new HashFunction(length);
-                    hash.insert(sequenceID, length, sequence);
-                    memory.insert(sequenceID, sequence, length);
+                    HashObject hashObject  = new HashObject(memory.insert(sequenceID, sequence, length));
                 }
                 case "remove" -> System.out.println("Remove");
 

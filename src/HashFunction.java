@@ -27,11 +27,18 @@ public class HashFunction implements HashTable<String, HashObject>{
          m = hashSize;
     }
 
-    public void insert(String sequenceID, int length, String sequence) throws IOException {
-        long hashCode = sfold(sequenceID, length); //gets the bucket index
-        MemoryManager mem = new MemoryManager(m); //creates a node for the sequence
+    public void insert(String id, HashObject hashObject) throws IOException {
+        long hashCode = sfold(id, hashObject.getId().getLength());
         int bucketIndex = findIndex(hashCode); //the bucket that the node belongs in
-        bucketArray[bucketIndex] = mem.insert(sequenceID, sequence, length);
+
+        for (int i = 0; i < 32; i++){
+            System.out.println("Bucket Array " + bucketArray[bucketIndex + i]);
+            System.out.println("Bucket Index " + bucketIndex);
+        if (bucketArray[bucketIndex + i] == null){
+            bucketArray[bucketIndex + i] = hashObject;
+            break;}
+        }
+
 
     }
 
@@ -65,7 +72,6 @@ public class HashFunction implements HashTable<String, HashObject>{
         private int findIndex(long hashCode) { //finds which bucket the node belongs to
             int index = (int) (hashCode % m);
             // key.hashCode() could be negative.
-            index = index < 0 ? index * -1 : index;
             return index;
         }
 

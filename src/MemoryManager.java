@@ -15,6 +15,7 @@ public class MemoryManager {
     */
     public MemoryManager(String fileName, int hashSize) throws IOException {
         this.memoryFile = new RandomAccessFile(fileName, "rw");
+        memoryFile.seek(0);
         memoryFile.setLength(0);
         this.head = null;
         this.hashTable = new HashFunction(hashSize);
@@ -43,7 +44,9 @@ public class MemoryManager {
 
     public HashObject insert(String id, String sequence, int length)
         throws IOException {
-     //   HashObject hashObject = searchHash(id);
+
+        //   HashObject hashObject = searchHash(id);
+
         // returns null if seqeunce already exists. Or overflow.
       //  if (hashObject != null && hashObject.getSkip() == 32) {
       //      return null;
@@ -59,10 +62,13 @@ public class MemoryManager {
         }
         if (freeID == null) {
             // get raf file pointer with getFilePointer()
+          //  memoryFile.getFilePointer();
             // remember to set raf pointer!!
             /** figure this out **/
-            // memID = new MemoryHandleHolder();
+          //   memID = new MemoryHandleHolder(freeID.getOffset(), length);
             // Add to file RAF.setlength(length + newLength)
+
+            //memoryFile.setLength(length + memoryFile.length());
 
             memoryFile.seek(memoryFile.length()); // This sets the file pointer
                                                   // to the end.
@@ -144,7 +150,7 @@ public class MemoryManager {
             }
         }
         HashObject hashObjectNew = new HashObject(memID, memFull);
-       // hashTable.insert(id, hashObjectNew); // insert to the hash table
+        hashTable.insert(id, hashObjectNew); // insert to the hash table
         return hashObjectNew;
     }
 
@@ -175,7 +181,7 @@ public class MemoryManager {
      * @return the last node
      */
 
-    /*
+
     private Node getLast() {
         if (head == null) {
             return null;
@@ -272,7 +278,7 @@ public class MemoryManager {
      * @throws IOException can throw
      */
 
-    /*
+
     public HashObject searchHash(String str) throws IOException {
         int counter = 0;
         boolean isSequenceFound = false;
