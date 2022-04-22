@@ -240,7 +240,7 @@ public class MemoryManager {
      * @return the string removed
      * @throws IOException can throw
      */
-    /*
+
     public String remove(String id) throws IOException {
         HashObject hash = searchHash(id);
         if (hash == null || hash.getSkip() == 32) {
@@ -266,7 +266,7 @@ public class MemoryManager {
             memoryFile.setLength(memoryFile.length() - getLast().getLength());
             setLast();
         }
-       // hashTable.remove(id, hash.getSkip()); // check
+        hashTable.remove(id, hash.getSkip()); // check
         return removed;
     }
 
@@ -548,8 +548,9 @@ public class MemoryManager {
      * 
      * @throws IOException
      */
-    /*
+
     public void print() throws IOException {
+        System.out.println("PRINT");
         HashObject[] table = hashTable.print();
         System.out.println("Sequence IDs:");
         for (int i = 0; i < table.length; i++) {
@@ -572,6 +573,7 @@ public class MemoryManager {
                     + ", Size " + temp.getLength() + " bytes");
                 temp = temp.getNext();
                 count++;
+
             }
         }
     }

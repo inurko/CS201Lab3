@@ -35,6 +35,11 @@ public class HashObject {
         skip = insert.getSkip();
     }
 
+    public HashObject() {
+
+    }
+
+
     /**
      * 
      * @return amount to skip in the hash table

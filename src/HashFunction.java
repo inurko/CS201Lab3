@@ -32,17 +32,32 @@ public class HashFunction implements HashTable<String, HashObject>{
         int bucketIndex = findIndex(hashCode); //the bucket that the node belongs in
 
         for (int i = 0; i < 32; i++){
-            System.out.println("Bucket Array " + bucketArray[bucketIndex + i]);
-            System.out.println("Bucket Index " + bucketIndex);
+            //System.out.println("Bucket Array " + bucketArray[bucketIndex + i]);
+      //      System.out.println("Bucket Index " + bucketIndex);
         if (bucketArray[bucketIndex + i] == null){
             bucketArray[bucketIndex + i] = hashObject;
             break;}
         }
-
-
+    }
+    public HashObject search(String id, int counter){
+        Long hash = sfold(id, m);
+        int index = findIndex(hash);
+        return bucketArray[counter + index];
+    }
+    public void remove(String id, int skip){
+        Long hash = sfold(id, m);
+        int index = findIndex(hash);
+       bucketArray[index + skip] = null;
     }
 
+    public HashObject [] print(){
+         HashObject [] hashArray = new HashObject [m];
 
+         for (int i =0; i < m; i++){
+             hashArray[i]= bucketArray[i];
+         }
+        return hashArray;
+    }
     HashTable table = new HashTable() {
 
         @Override

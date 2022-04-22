@@ -63,7 +63,7 @@ public class DNAparser {
             input = scnr.next();
             if (!input.equals(" ")) {
                 if (args.isEmpty()) {
-                    System.out.println("input = " + input);
+               //     System.out.println("input = " + input);
 
                 }
               //  args.add(input);
@@ -72,14 +72,14 @@ public class DNAparser {
         }
             // depending on the instruction; do something
         int i = 0;
-       // while (!argQ.isEmpty()){
-        while (i <20){
+        while (!argQ.isEmpty()){
             methodCall = argQ.remove();
-            System.out.println("methodCall" + methodCall);
+     //       System.out.println("methodCall " + methodCall);
+
             switch (methodCall) {
 
                 case "insert" -> {
-                    System.out.println("insert"); //public void insert (String sequenceID, int length, String sequence){
+              //      System.out.println("insert"); //public void insert (String sequenceID, int length, String sequence){
 
                     String sequenceID = argQ.remove();
                     int length = Integer.parseInt(argQ.remove());
@@ -88,11 +88,19 @@ public class DNAparser {
                     HashFunction hash = new HashFunction(length);
                     HashObject hashObject  = new HashObject(memory.insert(sequenceID, sequence, length));
                 }
-                case "remove" -> System.out.println("Remove");
+                case "remove" ->{
+                 //System.out.println("Remove");
+                    memory.remove(argQ.remove());
+                }
 
                 //call remove       .remove(argQ.remove);
-                case "search" -> System.out.println("Search");
-                case "print" -> System.out.println("Print");
+                case "search" ->{ //System.out.println("Search");
+                    memory.searchHash(argQ.remove());
+                   }
+                case "print" -> {
+                    System.out.println("Print");
+                    memory.print();
+                }
             }
         //    System.out.println("SIZE : " + args.size());
                 i++;
