@@ -15,7 +15,6 @@ public class MemoryManager {
     */
     public MemoryManager(String fileName, int hashSize) throws IOException {
         this.memoryFile = new RandomAccessFile(fileName, "rw");
-        memoryFile.seek(0);
         memoryFile.setLength(0);
         this.head = null;
         this.hashTable = new HashFunction(hashSize);
@@ -44,9 +43,7 @@ public class MemoryManager {
 
     public HashObject insert(String id, String sequence, int length)
         throws IOException {
-
-        //   HashObject hashObject = searchHash(id);
-
+     //   HashObject hashObject = searchHash(id);
         // returns null if seqeunce already exists. Or overflow.
       //  if (hashObject != null && hashObject.getSkip() == 32) {
       //      return null;
@@ -62,13 +59,10 @@ public class MemoryManager {
         }
         if (freeID == null) {
             // get raf file pointer with getFilePointer()
-          //  memoryFile.getFilePointer();
             // remember to set raf pointer!!
             /** figure this out **/
-          //   memID = new MemoryHandleHolder(freeID.getOffset(), length);
+            // memID = new MemoryHandleHolder();
             // Add to file RAF.setlength(length + newLength)
-
-            //memoryFile.setLength(length + memoryFile.length());
 
             memoryFile.seek(memoryFile.length()); // This sets the file pointer
                                                   // to the end.
@@ -118,8 +112,8 @@ public class MemoryManager {
                                                            // be the end??
             memFull = new MemoryHandleHolder(offset, length);
             // memoryFile.setLength(memoryFile.length() + length/4); Not needed.
-            System.out.println("Sequence = " + sequence);
-            System.out.println("length = " + length);;
+            //System.out.println("Sequence = " + sequence);
+            //System.out.println("length = " + length);;
             byte[] byt = getBinary(sequence, length);
             memoryFile.write(byt);
         }
@@ -266,7 +260,7 @@ public class MemoryManager {
             memoryFile.setLength(memoryFile.length() - getLast().getLength());
             setLast();
         }
-        hashTable.remove(id, hash.getSkip()); // check
+        hashTable.remove(hash, hash.getSkip()); // check
         return removed;
     }
 
@@ -447,7 +441,7 @@ public class MemoryManager {
      * @throws IOException
      */
 
-    /*
+
     public String search(String id) throws IOException {
         int counter = 0;
         boolean isSequenceFound = false;

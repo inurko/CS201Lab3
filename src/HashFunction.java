@@ -27,7 +27,7 @@ public class HashFunction implements HashTable<String, HashObject>{
          m = hashSize;
     }
 
-    public void insert(String id, HashObject hashObject) throws IOException {
+    public int insert(String id, HashObject hashObject){
         long hashCode = sfold(id, hashObject.getId().getLength());
         int bucketIndex = findIndex(hashCode); //the bucket that the node belongs in
 
@@ -38,16 +38,19 @@ public class HashFunction implements HashTable<String, HashObject>{
             bucketArray[bucketIndex + i] = hashObject;
             break;}
         }
+        return bucketIndex;
     }
     public HashObject search(String id, int counter){
         Long hash = sfold(id, m);
         int index = findIndex(hash);
         return bucketArray[counter + index];
     }
-    public void remove(String id, int skip){
-        Long hash = sfold(id, m);
+    public HashObject remove(HashObject id, Integer skip){
+        //hash.getId()
+        Long hash = sfold(id.getId().toString(), m);
         int index = findIndex(hash);
        bucketArray[index + skip] = null;
+       return bucketArray[index + skip];
     }
 
     public HashObject [] print(){
@@ -59,6 +62,31 @@ public class HashFunction implements HashTable<String, HashObject>{
         return hashArray;
     }
     HashTable table = new HashTable() {
+
+        @Override
+        public int insert(Comparable id, Object handle) {
+            return 0;
+        }
+
+        @Override
+        public Object remove(Comparable sequenceID, Integer amountToSkip) {
+            return null;
+        }
+
+        @Override
+        public int hash(Comparable sequenceID) {
+            return 0;
+        }
+
+        @Override
+        public Object search(Comparable id, Integer amountToSkip) {
+            return null;
+        }
+
+        @Override
+        public Object[] print() {
+            return new Object[0];
+        }
 
         @Override
         public int hashCode() {
@@ -112,9 +140,6 @@ public class HashFunction implements HashTable<String, HashObject>{
             sum = (sum * sum) >> 8;
             return (Math.abs(sum) % m);
         }
-
-
-
 }
 
 
