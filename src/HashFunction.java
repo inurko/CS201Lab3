@@ -76,10 +76,10 @@ public class HashFunction implements HashTable<String, HashObject>{
             return null;
         }
 
-        @Override
+        /*@Override
         public int hash(Comparable sequenceID) {
             return 0;
-        }
+        }*/
 
         @Override
         public Object search(Comparable id, Integer amountToSkip) {

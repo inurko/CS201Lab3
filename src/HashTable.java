@@ -10,7 +10,7 @@ public interface HashTable<T extends Comparable<T>, K> {
 
     public K remove(T sequenceID, Integer amountToSkip);
 
-    public int hash(T sequenceID);
+    //public int hash(T sequenceID);
 
     public K search(T id, Integer amountToSkip);
 
