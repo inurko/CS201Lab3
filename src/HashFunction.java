@@ -40,14 +40,16 @@ public class HashFunction implements HashTable<String, HashObject>{
         }
         return bucketIndex;
     }
-    public HashObject search(String id, int counter){
+
+    public HashObject search(String id, Integer counter){
         Long hash = sfold(id, m);
         int index = findIndex(hash);
         return bucketArray[counter + index];
     }
-    public HashObject remove(HashObject id, Integer skip){
+
+    public HashObject remove(String id, Integer skip){
         //hash.getId()
-        Long hash = sfold(id.getId().toString(), m);
+        Long hash = sfold(id, m);
         int index = findIndex(hash);
        bucketArray[index + skip] = null;
        return bucketArray[index + skip];
@@ -61,6 +63,7 @@ public class HashFunction implements HashTable<String, HashObject>{
          }
         return hashArray;
     }
+
     HashTable table = new HashTable() {
 
         @Override

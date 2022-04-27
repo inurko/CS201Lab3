@@ -98,7 +98,7 @@ public class DNAparser {
                     memory.searchHash(argQ.remove());
                    }
                 case "print" -> {
-                    System.out.println("Print");
+                    //System.out.println("Print");
                     memory.print();
                 }
             }

@@ -260,7 +260,7 @@ public class MemoryManager {
             memoryFile.setLength(memoryFile.length() - getLast().getLength());
             setLast();
         }
-        hashTable.remove(hash, hash.getSkip()); // check
+        hashTable.remove(id, hash.getSkip()); // check
         return removed;
     }
 
@@ -544,7 +544,7 @@ public class MemoryManager {
      */
 
     public void print() throws IOException {
-        System.out.println("PRINT");
+        //System.out.println("PRINT");
         HashObject[] table = hashTable.print();
         System.out.println("Sequence IDs:");
         for (int i = 0; i < table.length; i++) {
