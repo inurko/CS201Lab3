@@ -7,7 +7,6 @@ import java.util.function.LongToIntFunction;
 
 public class HashFunction implements HashTable<String, HashObject>{
 
-
     /**
      *
      * @param s
@@ -59,6 +58,9 @@ public class HashFunction implements HashTable<String, HashObject>{
         bucketArray[place].setTombstone(true);
         HashObject hold=bucketArray[place];
         bucketArray[place] = null;
+        if(id != null){
+            System.out.println("Sequence Removed " + id + ":");
+        }
         return hold;
     }
 

@@ -95,4 +95,5 @@ public class HashObject {
     public void setTombstone(boolean bool) {
         tombstone = bool;
     }
+
 }

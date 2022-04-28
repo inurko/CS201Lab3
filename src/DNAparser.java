@@ -85,18 +85,33 @@ public class DNAparser {
                     int length = Integer.parseInt(argQ.remove());
                     String sequence = argQ.remove();
 
-                    HashFunction hash = new HashFunction(length);
+                    //HashFunction hash = new HashFunction(length);
                     //HashObject hashObject  = new HashObject(memory.insert(sequenceID, sequence, length));
-                    memory.insert(sequenceID, sequence, length);
+                    if (memory.searchHash(sequenceID) != null){
+                        System.out.println("Sequence " + sequenceID + " exists");
+                    } else{
+                        memory.insert(sequenceID, sequence, length);
+                    }
                 }
                 case "remove" ->{
                  //System.out.println("Remove");
-                    memory.remove(argQ.remove());
+                    String sequence = memory.remove(argQ.remove());
+                    if (sequence != null){
+                        System.out.println(sequence);
+                    } else{
+                        System.out.println("failed");
+                    }
                 }
 
                 //call remove       .remove(argQ.remove);
                 case "search" ->{ //System.out.println("Search");
-                    memory.searchHash(argQ.remove());
+                    String id = argQ.remove();
+                    if (memory.searchHash(id) != null) {
+                        System.out.println("Sequence Found: " + memory.search(id));
+                        //HashObject hash = new HashObject(memory.searchHash(id));
+                    } else{
+                        System.out.println("SequenceID " + id + " not found");
+                    }
                    }
                 case "print" -> {
                     //System.out.println("Print");

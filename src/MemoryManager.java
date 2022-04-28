@@ -7,12 +7,12 @@ public class MemoryManager {
     private HashFunction hashTable;
 
 
-   /**
-    * 
-    * @param fileName is the file name
-    * @param hashSize size of hash
-    * @throws IOException can throw
-    */
+    /**
+     *
+     * @param fileName is the file name
+     * @param hashSize size of hash
+     * @throws IOException can throw
+     */
     public MemoryManager(String fileName, int hashSize) throws IOException {
         this.memoryFile = new RandomAccessFile(fileName, "rw");
         memoryFile.setLength(0);
@@ -23,7 +23,7 @@ public class MemoryManager {
 
     /**
      * A constructor to test certain functions
-     * 
+     *
      * @param hashSize is the hashsize
      */
     public MemoryManager(int hashSize) {
@@ -33,7 +33,7 @@ public class MemoryManager {
 
 
     /**
-     * 
+     *
      * @param id is the id
      * @param sequence is the sequence
      * @param length is the length
@@ -42,15 +42,15 @@ public class MemoryManager {
      */
 
     public HashObject insert(String id, String sequence, int length)
-        throws IOException {
-     //   HashObject hashObject = searchHash(id);
+            throws IOException {
+        HashObject hashObject = searchHash(id);
         // returns null if seqeunce already exists. Or overflow.
-      //  if (hashObject != null && hashObject.getSkip() == 32) {
-      //      return null;
-     //   }
-     //   if (hashObject != null) {
-     //       return null;
-     //   }
+        if (hashObject != null && hashObject.getSkip() == 32) {
+            return null;
+        }
+        if (hashObject != null) {
+            return null;
+        }
         Node freeID = findFree(id.length());
         MemoryHandleHolder memID = null;
         int idLength = id.length() / 4;
@@ -65,9 +65,9 @@ public class MemoryManager {
             // Add to file RAF.setlength(length + newLength)
 
             memoryFile.seek(memoryFile.length()); // This sets the file pointer
-                                                  // to the end.
+            // to the end.
             int offset = (int)memoryFile.getFilePointer(); // Will this always
-                                                           // be the end?? ^.
+            // be the end?? ^.
             memID = new MemoryHandleHolder(offset, id.length());
             byte[] byt = getBinary(id, id.length());
             memoryFile.write(byt);
@@ -107,9 +107,9 @@ public class MemoryManager {
             // memFull = new MemoryHandleHolder
             // Add to file RAF.setlength(length + newLength)
             memoryFile.seek(memoryFile.length()); // This sets the file pointer
-                                                  // to the end.
+            // to the end.
             int offset = (int)memoryFile.getFilePointer(); // Will this always
-                                                           // be the end??
+            // be the end??
             memFull = new MemoryHandleHolder(offset, length);
             // memoryFile.setLength(memoryFile.length() + length/4); Not needed.
             //System.out.println("Sequence = " + sequence);
@@ -123,7 +123,7 @@ public class MemoryManager {
             memFull = new MemoryHandleHolder(freeFull.getOffset(), length);
             byte[] byt = getBinary(sequence, length);
             memoryFile.seek(freeFull.getOffset()); // sets filepointer to where
-                                                   // the seq is.
+            // the seq is.
             memoryFile.write(byt);
             if (freeFull.getLength() != fullLength) {
                 freeFull.setOffset(freeFull.getOffset() + fullLength);
@@ -150,14 +150,14 @@ public class MemoryManager {
 
 
     /**
-     * 
+     *
      * @param node is the node
      * @return the prev node
      */
 
 
     private Node findPrev(Node node) {
-        
+
         Node temp = head;
         while (temp != null) {
             if (temp.getNext() == node) {
@@ -167,11 +167,11 @@ public class MemoryManager {
         }
         return null;
     }
-    
+
 
 
     /**
-     * 
+     *
      * @return the last node
      */
 
@@ -189,7 +189,7 @@ public class MemoryManager {
 
 
     /**
-     * 
+     *
      */
 
     private void setLast() {
@@ -207,7 +207,7 @@ public class MemoryManager {
 
 
     /**
-     * 
+     *
      * @param length is the length of free block
      * @return the node
      */
@@ -230,7 +230,7 @@ public class MemoryManager {
 
 
     /**
-     * @param id is the id to remove
+     *@param id is the id to remove
      * @return the string removed
      * @throws IOException can throw
      */
@@ -256,7 +256,7 @@ public class MemoryManager {
 
         addToFree(nodeFull);
         while (getLast() != null && getLast().getOffset() + getLast()
-            .getLength() == memoryFile.length()) {
+                .getLength() == memoryFile.length()) {
             memoryFile.setLength(memoryFile.length() - getLast().getLength());
             setLast();
         }
@@ -266,7 +266,7 @@ public class MemoryManager {
 
 
     /**
-     * 
+     *
      * @param str is the string
      * @return the obj
      * @throws IOException can throw
@@ -299,7 +299,7 @@ public class MemoryManager {
         }
         return new HashObject(hash.getId(), hash.getFull(), counter);
     }
-    
+
 
     /**
      *
@@ -322,7 +322,7 @@ public class MemoryManager {
 
         for (int i = 0; i < mem.getLength() % 4; i++) {
             str = str + convertBitToChar(bytes[numberOfBytesRead - 1] >> (6 - i
-                * 2) & 3);
+                    * 2) & 3);
         }
         // Go into Raf, access the blocks from start to start + length
         // convert bytes to String.
@@ -332,7 +332,7 @@ public class MemoryManager {
 
 
     /**
-     * 
+     *
      * @param str
      *            is the string to insert in the file
      * @param length is the length of the string
@@ -352,7 +352,7 @@ public class MemoryManager {
             int thirdPart = convertCharToBit(str.charAt(i * 4 + 2));
             int fourthPart = convertCharToBit(str.charAt(i * 4 + 3));
             arrBytes[i] = (byte)((firstPart << 6) + (secondPart << 4)
-                + (thirdPart << 2) + fourthPart);
+                    + (thirdPart << 2) + fourthPart);
         }
 
         if (length % 4 != 0) {
@@ -362,7 +362,7 @@ public class MemoryManager {
                 arr[i] = convertCharToBit(str.charAt(length - modded + i));
             }
             arrBytes[numOfBytes - 1] = (byte)((arr[0] << 6) + (arr[1] << 4)
-                + (arr[2] << 2) + arr[3]);
+                    + (arr[2] << 2) + arr[3]);
         }
 
         return arrBytes;
@@ -370,7 +370,7 @@ public class MemoryManager {
 
 
     /**
-     * 
+     *
      * @param letter is the letter to convert
      * @return the int value
      */
@@ -392,7 +392,7 @@ public class MemoryManager {
 
 
     /**
-     * 
+     *
      * @param single is the byte to convert
      * @return the int value
      */
@@ -405,7 +405,7 @@ public class MemoryManager {
 
         String tot = "";
         tot = tot + convertBitToChar(firstChar) + convertBitToChar(secondChar)
-            + convertBitToChar(thirdChar) + convertBitToChar(fourthChar);
+                + convertBitToChar(thirdChar) + convertBitToChar(fourthChar);
 
         return tot;
     }
@@ -413,7 +413,7 @@ public class MemoryManager {
 
     /**
      * convert a string to bit.
-     * 
+     *
      * @param bit is the bit to convert
      * @return the string
      */
@@ -433,9 +433,9 @@ public class MemoryManager {
         }
     }
 
-
+/*
     /**
-     * 
+     *
      * @param id is the id
      * @return the string
      * @throws IOException
@@ -465,7 +465,7 @@ public class MemoryManager {
 
 
     /**
-     * 
+     *
      * @param node to add to free block list
      */
 
@@ -497,14 +497,14 @@ public class MemoryManager {
             }
             if (temp.getNext().getOffset() > node.getOffset()) {
                 if (node.getLength() + node.getOffset() == temp.getNext()
-                    .getOffset()) {
+                        .getOffset()) {
                     temp.getNext().setOffset(node.getOffset());
                     temp.getNext().setLength(temp.getNext().getLength() + node
-                        .getLength());
-                    if (temp.getOffset() + temp.getLength() == temp.getNext()
-                        .getOffset()) {
-                        temp.setLength(temp.getLength() + temp.getNext()
                             .getLength());
+                    if (temp.getOffset() + temp.getLength() == temp.getNext()
+                            .getOffset()) {
+                        temp.setLength(temp.getLength() + temp.getNext()
+                                .getLength());
                         Node temp2 = temp.getNext();
                         temp.setNext(null);
                         temp.setNext(temp2.getNext());
@@ -514,7 +514,7 @@ public class MemoryManager {
                     return;
                 }
                 else if (temp.getLength() + temp.getOffset() == node
-                    .getOffset()) {
+                        .getOffset()) {
                     temp.setLength(temp.getLength() + node.getLength());
                     return;
                 }
@@ -530,7 +530,7 @@ public class MemoryManager {
 
 
     /**
-     * 
+     *
      * @return the has table
      */
     public HashFunction getHashTable() {
@@ -539,7 +539,7 @@ public class MemoryManager {
 
 
     /**
-     * 
+     *
      * @throws IOException
      */
 
@@ -552,7 +552,7 @@ public class MemoryManager {
                 continue;
             }
             System.out.println(getString(table[i].getId()) + ": hash slot [" + i
-                + "]");
+                    + "]");
         }
         if (head == null) {
             System.out.println("Free Block List: none");
@@ -563,8 +563,8 @@ public class MemoryManager {
             int count = 1;
             while (temp != null) {
                 System.out.println("[Block " + count
-                    + "] Starting Byte Location: " + temp.getOffset()
-                    + ", Size " + temp.getLength() + " bytes");
+                        + "] Starting Byte Location: " + temp.getOffset()
+                        + ", Size " + temp.getLength() + " bytes");
                 temp = temp.getNext();
                 count++;
 
@@ -575,7 +575,7 @@ public class MemoryManager {
 
     /**
      * determines whether or not anything been deleted
-     * 
+     *
      * @return whether or not there is free space
      */
     public boolean isFreeSpace() {
@@ -583,5 +583,6 @@ public class MemoryManager {
     }
 
 }
+
 
 
