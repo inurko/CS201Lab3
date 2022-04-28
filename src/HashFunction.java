@@ -9,7 +9,7 @@ public class HashFunction implements HashTable<String, HashObject>{
 
 
     /**
-     * 
+     *
      * @param s
      *            is the string to be hashed
      * @param m
@@ -24,44 +24,46 @@ public class HashFunction implements HashTable<String, HashObject>{
 
     public HashFunction(int hashSize) {
         bucketArray = new HashObject[hashSize];
-         m = hashSize;
+        m = hashSize;
     }
 
     public int insert(String id, HashObject hashObject){
-        long hashCode = sfold(id, hashObject.getId().getLength());
-        int bucketIndex = findIndex(hashCode); //the bucket that the node belongs in
-
+        int slot = (int)sfold(id, m);
+        int bucket= slot/32;
+        int reset=bucket*32;
+        int place=0;
         for (int i = 0; i < 32; i++){
             //System.out.println("Bucket Array " + bucketArray[bucketIndex + i]);
-      //      System.out.println("Bucket Index " + bucketIndex);
-        if (bucketArray[bucketIndex + i] == null){
-            bucketArray[bucketIndex + i] = hashObject;
-            break;}
+            place =(slot+i)%32+reset;
+            if (bucketArray[place] == null||bucketArray[place].getTombstone()==true){
+                bucketArray[place] = hashObject;
+                break;}
         }
-        return bucketIndex;
+        return place;
     }
 
     public HashObject search(String id, Integer counter){
-        Long hash = sfold(id, m);
-        int index = findIndex(hash);
-        return bucketArray[counter + index];
+        int slot = (int)sfold(id, m);
+        int bucket= slot/32;
+        int reset=bucket*32;
+        int place =(slot+counter)%32+reset;
+        return bucketArray[place];
     }
 
     public HashObject remove(String id, Integer skip){
         //hash.getId()
-        Long hash = sfold(id, m);
-        int index = findIndex(hash);
-       bucketArray[index + skip] = null;
-       return bucketArray[index + skip];
+        int slot = (int)sfold(id, m);
+        int bucket= slot/32;
+        int reset=bucket*32;
+        int place =(slot+skip)%32+reset;
+        bucketArray[place].setTombstone(true);
+        HashObject hold=bucketArray[place];
+        bucketArray[place] = null;
+        return hold;
     }
 
     public HashObject [] print(){
-         HashObject [] hashArray = new HashObject [m];
-
-         for (int i =0; i < m; i++){
-             hashArray[i]= bucketArray[i];
-         }
-        return hashArray;
+        return bucketArray;
     }
 
     HashTable table = new HashTable() {
@@ -112,37 +114,35 @@ public class HashFunction implements HashTable<String, HashObject>{
         }
     }
 
-        ;
-        //  public ArrayList<HashNode<K,V>> bucketArray;
+            ;
+    //  public ArrayList<HashNode<K,V>> bucketArray;
 
-        private int findIndex(long hashCode) { //finds which bucket the node belongs to
-            int index = (int) (hashCode % m);
-            // key.hashCode() could be negative.
-            return index;
-        }
+    private int findIndex(long hashCode) { //finds which bucket the node belongs to
+        int index = (int) (hashCode % m);
+        // key.hashCode() could be negative.
+        return index;
+    }
 
-        private long sfold(String s, int m) { //hashes the sequence
-            int intLength = s.length() / 4;
-            long sum = 0;
-            for (int j = 0; j < intLength; j++) {
-                char[] c = s.substring(j * 4, (j * 4) + 4).toCharArray();
-                long mult = 1;
-                for (int k = 0; k < c.length; k++) {
-                    sum += c[k] * mult;
-                    mult *= 256;
-                }
-            }
-
-            char[] c = s.substring(intLength * 4).toCharArray();
+    private long sfold(String s, int m) { //hashes the sequence
+        int intLength = s.length() / 4;
+        long sum = 0;
+        for (int j = 0; j < intLength; j++) {
+            char[] c = s.substring(j * 4, (j * 4) + 4).toCharArray();
             long mult = 1;
             for (int k = 0; k < c.length; k++) {
                 sum += c[k] * mult;
                 mult *= 256;
             }
-
-            sum = (sum * sum) >> 8;
-            return (Math.abs(sum) % m);
         }
+
+        char[] c = s.substring(intLength * 4).toCharArray();
+        long mult = 1;
+        for (int k = 0; k < c.length; k++) {
+            sum += c[k] * mult;
+            mult *= 256;
+        }
+
+        sum = (sum * sum) >> 8;
+        return (Math.abs(sum) % m);
+    }
 }
-
-

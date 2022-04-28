@@ -228,7 +228,7 @@ public class MemoryManager {
         return null;
     }
 
-/*
+
     /**
      * @param id is the id to remove
      * @return the string removed
@@ -433,7 +433,7 @@ public class MemoryManager {
         }
     }
 
-/*
+
     /**
      * 
      * @param id is the id
@@ -458,7 +458,7 @@ public class MemoryManager {
                 continue;
             }
             counter++;
-      //      hash = hashTable.search(id, counter); // check
+            hash = hashTable.search(id, counter); // check
         }
         return getString(hash.getFull());
     }
